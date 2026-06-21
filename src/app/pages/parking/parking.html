@@ -1,0 +1,109 @@
+<div class="parking-page">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/parking" class="active">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces">Espacios</a>
+      <a routerLink="/history">Historial</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    @if (loading()) {
+      <p class="loading-text">Cargando...</p>
+    } @else {
+      <div class="panels">
+        <!-- Entry Panel -->
+        <div class="panel">
+          <h2>Registrar entrada</h2>
+
+          <div class="field">
+            <label>Vehículo</label>
+            <select [value]="entryVehicleId() ?? ''" (change)="entryVehicleId.set(+$any($event.target).value || null)">
+              <option value="">Seleccionar vehículo...</option>
+              @for (v of vehicles(); track v.id) {
+                <option [value]="v.id">{{ v.plate }} ({{ v.type }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Espacio (opcional)</label>
+            <select [value]="entrySpaceId() ?? ''" (change)="entrySpaceId.set(+$any($event.target).value || null)">
+              <option value="">Automático (primer espacio libre)</option>
+              @for (s of freeSpaces; track s.id) {
+                <option [value]="s.id">Espacio {{ s.number }}</option>
+              }
+            </select>
+          </div>
+
+          @if (entryError()) {
+            <div class="message error">{{ entryError() }}</div>
+          }
+          @if (entrySuccess()) {
+            <div class="message success">{{ entrySuccess() }}</div>
+          }
+
+          <button class="btn-primary" (click)="registerEntry()">Registrar entrada</button>
+        </div>
+
+        <!-- Exit Panel -->
+        <div class="panel">
+          <h2>Registrar salida</h2>
+
+          <div class="field">
+            <label>Vehículo estacionado</label>
+            <select [value]="exitVehicleId() ?? ''" (change)="exitVehicleId.set(+$any($event.target).value || null)">
+              <option value="">Seleccionar vehículo...</option>
+              @for (p of parkedVehicles(); track p.id) {
+                <option [value]="p.vehicle_id">{{ p.vehicle.plate }} ({{ p.vehicle.type }}) — Espacio {{ p.space.number }}</option>
+              }
+            </select>
+          </div>
+
+          @if (exitError()) {
+            <div class="message error">{{ exitError() }}</div>
+          }
+          @if (exitSuccess()) {
+            <div class="message success">{{ exitSuccess() }}</div>
+          }
+
+          <button class="btn-primary exit" (click)="registerExit()">Registrar salida</button>
+        </div>
+      </div>
+
+      <!-- Parked vehicles -->
+      @if (parkedVehicles().length > 0) {
+        <div class="panel parked-list">
+          <h2>Vehículos parqueados ahora ({{ parkedVehicles().length }})</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Placa</th>
+                <th>Tipo</th>
+                <th>Espacio</th>
+                <th>Entrada</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of parkedVehicles(); track p.id) {
+                <tr>
+                  <td>{{ p.vehicle.plate }}</td>
+                  <td>{{ p.vehicle.type }}</td>
+                  <td>{{ p.space.number }}</td>
+                  <td>{{ p.entry_time | date:'short' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+  </main>
+</div>
