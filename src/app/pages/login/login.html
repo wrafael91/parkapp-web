@@ -1,0 +1,40 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>ParkApp</h1>
+    <p class="subtitle">Sistema de gestión de parqueadero</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="username">Usuario</label>
+        <input
+          id="username"
+          type="text"
+          [value]="username()"
+          (input)="username.set($any($event.target).value)"
+          placeholder="Ingresa tu usuario"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          [value]="password()"
+          (input)="password.set($any($event.target).value)"
+          placeholder="Ingresa tu contraseña"
+          required
+        />
+      </div>
+
+      @if (error()) {
+        <div class="error">{{ error() }}</div>
+      }
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>

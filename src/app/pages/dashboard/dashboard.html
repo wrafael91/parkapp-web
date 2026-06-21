@@ -1,0 +1,66 @@
+<div class="dashboard">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard" class="active">Dashboard</a>
+      <a routerLink="/parking">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces">Espacios</a>
+      <a routerLink="/history">Historial</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    @if (loading()) {
+      <p class="loading">Cargando...</p>
+    } @else {
+      <div class="stats-grid">
+        <div class="stat-card occupancy">
+          <div class="stat-label">Ocupación</div>
+          <div class="stat-value">{{ occupancyPercent }}%</div>
+          <div class="stat-detail">{{ occupiedCount }} / {{ spaces().length }} espacios</div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="occupancyPercent"></div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Espacios libres</div>
+          <div class="stat-value free">{{ freeCount }}</div>
+          <div class="stat-detail">disponibles ahora</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Entradas hoy</div>
+          <div class="stat-value">{{ report()?.total_entries ?? 0 }}</div>
+          <div class="stat-detail">vehículos ingresaron</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Ingresos hoy</div>
+          <div class="stat-value revenue">${{ report()?.total_revenue ?? 0 | number }}</div>
+          <div class="stat-detail">{{ report()?.total_exits ?? 0 }} salidas cobradas</div>
+        </div>
+      </div>
+
+      <div class="spaces-preview">
+        <h2>Mapa de espacios</h2>
+        <div class="spaces-grid">
+          @for (space of spaces(); track space.id) {
+            <div class="space-dot" [class.occupied]="space.status === 'ocupado'" [title]="space.status === 'ocupado' ? 'Espacio ' + space.number + ' — ' + space.current_vehicle?.plate : 'Espacio ' + space.number + ' — Libre'">
+              {{ space.number }}
+            </div>
+          }
+        </div>
+        <div class="legend">
+          <span class="legend-item"><span class="dot free"></span> Libre</span>
+          <span class="legend-item"><span class="dot occupied"></span> Ocupado</span>
+        </div>
+      </div>
+    }
+  </main>
+</div>
