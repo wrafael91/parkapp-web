@@ -1,0 +1,86 @@
+<div class="spaces-page">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/parking">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces" class="active">Espacios</a>
+      <a routerLink="/history">Historial</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>Mapa de espacios</h2>
+      <div class="summary">
+        <span class="badge free">{{ free }} libres</span>
+        <span class="badge occupied">{{ occupied }} ocupados</span>
+        <span class="badge total">{{ spaces().length }} total</span>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <p class="loading-text">Cargando...</p>
+    } @else {
+      <div class="layout">
+        <div class="grid-card">
+          <div class="spaces-grid">
+            @for (space of spaces(); track space.id) {
+              <button
+                class="space-cell"
+                [class.occupied]="space.status === 'ocupado'"
+                [class.selected]="selected()?.id === space.id"
+                (click)="select(space)"
+                [title]="space.status === 'ocupado' ? space.current_vehicle?.plate : 'Libre'"
+              >
+                <span class="space-number">{{ space.number }}</span>
+                @if (space.status === 'ocupado' && space.current_vehicle) {
+                  <span class="space-plate">{{ space.current_vehicle.plate }}</span>
+                } @else {
+                  <span class="space-free-label">Libre</span>
+                }
+              </button>
+            }
+          </div>
+
+          <div class="legend">
+            <span class="legend-item"><span class="dot free"></span> Libre</span>
+            <span class="legend-item"><span class="dot occupied"></span> Ocupado</span>
+            <span class="legend-item"><span class="dot selected"></span> Seleccionado</span>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          @if (selected()) {
+            <h3>Espacio {{ selected().number }}</h3>
+            <div class="detail-status" [class.occupied]="selected().status === 'ocupado'">
+              {{ selected().status === 'ocupado' ? 'Ocupado' : 'Libre' }}
+            </div>
+
+            @if (selected().status === 'ocupado' && selected().current_vehicle) {
+              <div class="detail-info">
+                <div class="detail-row">
+                  <span class="detail-label">Placa</span>
+                  <span class="detail-value">{{ selected().current_vehicle.plate }}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Tipo</span>
+                  <span class="detail-value">{{ selected().current_vehicle.type }}</span>
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="detail-empty">
+              <p>Hacé click en un espacio para ver el detalle</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </main>
+</div>

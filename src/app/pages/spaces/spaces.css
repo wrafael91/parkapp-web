@@ -1,0 +1,257 @@
+.spaces-page {
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+header {
+  background: #1a1a2e;
+  color: white;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 56px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: white;
+  white-space: nowrap;
+}
+
+nav {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+nav a:hover,
+nav a.active {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.user-info button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.user-info button:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.page-header h2 {
+  font-size: 1.1rem;
+  color: #1a1a2e;
+}
+
+.summary {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge.free { background: #e8f5e9; color: #2e7d32; }
+.badge.occupied { background: #fce4ec; color: #c62828; }
+.badge.total { background: #e3f2fd; color: #1565c0; }
+
+.loading-text {
+  text-align: center;
+  color: #666;
+  padding: 3rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.grid-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.space-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.25rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #e8f5e9;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-height: 64px;
+  gap: 0.15rem;
+}
+
+.space-cell:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.space-cell.occupied {
+  background: #fce4ec;
+}
+
+.space-cell.selected {
+  border-color: #4361ee;
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+.space-number {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.space-plate {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #c62828;
+  letter-spacing: 0.03em;
+}
+
+.space-free-label {
+  font-size: 0.6rem;
+  color: #2e7d32;
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.dot.free { background: #e8f5e9; border: 1px solid #a5d6a7; }
+.dot.occupied { background: #fce4ec; border: 1px solid #f48fb1; }
+.dot.selected { background: white; border: 2px solid #4361ee; }
+
+.detail-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  min-height: 200px;
+}
+
+.detail-card h3 {
+  font-size: 1.1rem;
+  color: #1a1a2e;
+  margin-bottom: 0.75rem;
+}
+
+.detail-status {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #e8f5e9;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.detail-status.occupied {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.detail-label {
+  color: #666;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.detail-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  color: #999;
+  font-size: 0.85rem;
+  text-align: center;
+}

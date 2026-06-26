@@ -6,6 +6,7 @@ export const routes: Routes = [
   { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard), canActivate: [authGuard] },
   { path: 'parking', loadComponent: () => import('./pages/parking/parking').then(m => m.Parking), canActivate: [authGuard] },
   { path: 'vehicles', loadComponent: () => import('./pages/vehicles/vehicles').then(m => m.Vehicles), canActivate: [authGuard] },
+  { path: 'spaces', loadComponent: () => import('./pages/spaces/spaces').then(m => m.Spaces), canActivate: [authGuard] },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' },
 ];
