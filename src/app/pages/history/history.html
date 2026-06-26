@@ -1,0 +1,94 @@
+<div class="history-page">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/parking">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces">Espacios</a>
+      <a routerLink="/history" class="active">Historial</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>Historial de parqueo</h2>
+      <span class="count">{{ count() }} registros</span>
+    </div>
+
+    <div class="filters-card">
+      <div class="filters-row">
+        <div class="field">
+          <label>Desde</label>
+          <input type="date" [value]="from()" (change)="from.set($any($event.target).value)" />
+        </div>
+        <div class="field">
+          <label>Hasta</label>
+          <input type="date" [value]="to()" (change)="to.set($any($event.target).value)" />
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <select [value]="vehicle_type()" (change)="vehicle_type.set($any($event.target).value)">
+            <option value="">Todos</option>
+            <option value="carro">Carro</option>
+            <option value="moto">Moto</option>
+            <option value="bicicleta">Bicicleta</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Placa</label>
+          <input type="text" [value]="plate()" (input)="plate.set($any($event.target).value)" placeholder="Ej: ABC123" />
+        </div>
+        <div class="filter-actions">
+          <button class="btn-search" (click)="load()">Buscar</button>
+          <button class="btn-clear" (click)="clearFilters()">Limpiar</button>
+        </div>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <p class="loading-text">Cargando...</p>
+    } @else {
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Tipo</th>
+              <th>Espacio</th>
+              <th>Entrada</th>
+              <th>Salida</th>
+              <th>Cobrado</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of records(); track r.id) {
+              <tr>
+                <td class="plate">{{ r.vehicle.plate }}</td>
+                <td><span class="badge" [class]="r.vehicle.type">{{ r.vehicle.type }}</span></td>
+                <td>{{ r.space.number }}</td>
+                <td>{{ r.entry_time | date:'short' }}</td>
+                <td>{{ r.exit_time ? (r.exit_time | date:'short') : '—' }}</td>
+                <td>{{ r.amount_charged != null ? ('$' + (r.amount_charged | number)) : '—' }}</td>
+                <td>
+                  <span class="status" [class.active]="!r.exit_time">
+                    {{ r.exit_time ? 'Completado' : 'En curso' }}
+                  </span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7" class="empty">No hay registros para los filtros seleccionados</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </main>
+</div>
