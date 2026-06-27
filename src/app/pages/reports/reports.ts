@@ -1,13 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-reports',
-  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, FormsModule, Navbar],
   templateUrl: './reports.html',
   styleUrl: './reports.css',
 })
@@ -44,7 +44,4 @@ export class Reports implements OnInit {
     return Object.entries(bt) as [string, { entries: number; exits: number; revenue: number }][];
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }

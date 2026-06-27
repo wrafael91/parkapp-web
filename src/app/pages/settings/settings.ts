@@ -1,12 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-settings',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, Navbar],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
@@ -109,7 +109,4 @@ export class Settings implements OnInit {
     });
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }

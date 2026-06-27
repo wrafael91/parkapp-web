@@ -1,13 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-passes',
-  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, FormsModule, Navbar],
   templateUrl: './passes.html',
   styleUrl: './passes.css',
 })
@@ -86,7 +86,4 @@ export class Passes implements OnInit {
     });
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }

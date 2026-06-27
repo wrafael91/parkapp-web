@@ -3,66 +3,6 @@
   background: #f0f2f5;
 }
 
-header {
-  background: #1a1a2e;
-  color: white;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  height: 56px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: white;
-  white-space: nowrap;
-}
-
-nav {
-  display: flex;
-  gap: 0.25rem;
-  flex: 1;
-}
-
-nav a {
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
-
-nav a:hover,
-nav a.active {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
-
-.user-info button {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.35rem 0.75rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.user-info button:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-}
 
 main {
   padding: 2rem;
@@ -257,4 +197,10 @@ tr:last-child td {
   border-radius: 6px;
   font-size: 0.75rem;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  main { padding: 1rem; }
+  .inline-form { flex-wrap: wrap; }
+  .section-card { overflow-x: auto; }
 }

@@ -1,0 +1,25 @@
+<header>
+  <h1>ParkApp</h1>
+
+  <nav [class.open]="menuOpen()">
+    <a routerLink="/dashboard" routerLinkActive="active" (click)="close()">Dashboard</a>
+    <a routerLink="/parking" routerLinkActive="active" (click)="close()">Parking</a>
+    <a routerLink="/vehicles" routerLinkActive="active" (click)="close()">Vehículos</a>
+    <a routerLink="/spaces" routerLinkActive="active" (click)="close()">Espacios</a>
+    <a routerLink="/history" routerLinkActive="active" (click)="close()">Historial</a>
+    <a routerLink="/reports" routerLinkActive="active" (click)="close()">Reportes</a>
+    <a routerLink="/passes" routerLinkActive="active" (click)="close()">Mensualidades</a>
+    <a routerLink="/settings" routerLinkActive="active" (click)="close()">Configuración</a>
+  </nav>
+
+  <div class="user-info">
+    <span class="username">{{ auth.user()?.username }}</span>
+    <button (click)="logout()">Salir</button>
+  </div>
+
+  <button class="hamburger" [class.open]="menuOpen()" (click)="toggle()" aria-label="Menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>

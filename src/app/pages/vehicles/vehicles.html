@@ -1,21 +1,5 @@
 <div class="vehicles-page">
-  <header>
-    <h1>ParkApp</h1>
-    <nav>
-      <a routerLink="/dashboard">Dashboard</a>
-      <a routerLink="/parking">Parking</a>
-      <a routerLink="/vehicles" class="active">Vehículos</a>
-      <a routerLink="/spaces">Espacios</a>
-      <a routerLink="/history">Historial</a>
-      <a routerLink="/reports">Reportes</a>
-      <a routerLink="/passes">Mensualidades</a>
-      <a routerLink="/settings">Configuración</a>
-    </nav>
-    <div class="user-info">
-      <span>{{ auth.user()?.username }}</span>
-      <button (click)="logout()">Salir</button>
-    </div>
-  </header>
+  <app-navbar />
 
   <main>
     <div class="page-header">

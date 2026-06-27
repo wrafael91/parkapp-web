@@ -1,13 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-vehicles',
-  imports: [DatePipe, FormsModule, RouterLink],
+  imports: [DatePipe, FormsModule, Navbar],
   templateUrl: './vehicles.html',
   styleUrl: './vehicles.css',
 })
@@ -96,7 +96,4 @@ export class Vehicles implements OnInit {
     });
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }

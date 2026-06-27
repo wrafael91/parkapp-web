@@ -1,11 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-spaces',
-  imports: [RouterLink],
+  imports: [Navbar],
   templateUrl: './spaces.html',
   styleUrl: './spaces.css',
 })
@@ -43,7 +43,4 @@ export class Spaces implements OnInit {
     this.selected.set(this.selected()?.id === space.id ? null : space);
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }

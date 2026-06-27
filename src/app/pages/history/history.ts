@@ -1,13 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-history',
-  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, FormsModule, Navbar],
   templateUrl: './history.html',
   styleUrl: './history.css',
 })
@@ -53,7 +53,4 @@ export class History implements OnInit {
     this.load();
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }

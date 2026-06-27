@@ -1,12 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DecimalPipe],
+  imports: [DecimalPipe, Navbar],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -52,7 +52,4 @@ export class Dashboard implements OnInit {
     return Math.round((this.occupiedCount / total) * 100);
   }
 
-  logout() {
-    this.auth.logout();
-  }
 }
