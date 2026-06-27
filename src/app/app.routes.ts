@@ -9,6 +9,7 @@ export const routes: Routes = [
   { path: 'spaces', loadComponent: () => import('./pages/spaces/spaces').then(m => m.Spaces), canActivate: [authGuard] },
   { path: 'history', loadComponent: () => import('./pages/history/history').then(m => m.History), canActivate: [authGuard] },
   { path: 'reports', loadComponent: () => import('./pages/reports/reports').then(m => m.Reports), canActivate: [authGuard] },
+  { path: 'passes', loadComponent: () => import('./pages/passes/passes').then(m => m.Passes), canActivate: [authGuard] },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' },
 ];

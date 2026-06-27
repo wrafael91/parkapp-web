@@ -1,0 +1,104 @@
+<div class="passes-page">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/parking">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces">Espacios</a>
+      <a routerLink="/history">Historial</a>
+      <a routerLink="/reports">Reportes</a>
+      <a routerLink="/passes" class="active">Mensualidades</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>Mensualidades</h2>
+      @if (auth.isAdmin()) {
+        <button class="btn-new" (click)="openForm()">+ Nueva mensualidad</button>
+      }
+    </div>
+
+    @if (showForm()) {
+      <div class="form-card">
+        <h3>Nueva mensualidad</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label>Vehículo</label>
+            <select [(ngModel)]="form.vehicle_id">
+              <option value="">Seleccionar...</option>
+              @for (v of vehicles(); track v.id) {
+                <option [value]="v.id">{{ v.plate }} — {{ v.type }}</option>
+              }
+            </select>
+          </div>
+          <div class="field">
+            <label>Desde</label>
+            <input type="date" [(ngModel)]="form.start_date" />
+          </div>
+          <div class="field">
+            <label>Hasta</label>
+            <input type="date" [(ngModel)]="form.end_date" />
+          </div>
+          <div class="field">
+            <label>Monto ($)</label>
+            <input type="number" [(ngModel)]="form.amount" placeholder="Ej: 150000" min="1" />
+          </div>
+        </div>
+        @if (errorMsg()) {
+          <p class="error">{{ errorMsg() }}</p>
+        }
+        <div class="form-actions">
+          <button class="btn-save" (click)="submit()" [disabled]="saving()">
+            {{ saving() ? 'Guardando...' : 'Guardar' }}
+          </button>
+          <button class="btn-cancel" (click)="showForm.set(false)">Cancelar</button>
+        </div>
+      </div>
+    }
+
+    @if (loading()) {
+      <p class="loading-text">Cargando...</p>
+    } @else {
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Tipo</th>
+              <th>Desde</th>
+              <th>Hasta</th>
+              <th>Monto</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of passes(); track p.id) {
+              <tr>
+                <td class="plate">{{ p.vehicle.plate }}</td>
+                <td><span class="badge" [class]="p.vehicle.type">{{ p.vehicle.type }}</span></td>
+                <td>{{ p.start_date | date:'mediumDate' }}</td>
+                <td>{{ p.end_date | date:'mediumDate' }}</td>
+                <td>${{ p.amount | number:'1.0-0' }}</td>
+                <td>
+                  <span class="status" [class.active]="isActive(p)">
+                    {{ isActive(p) ? 'Activa' : 'Vencida' }}
+                  </span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty">No hay mensualidades registradas</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </main>
+</div>
