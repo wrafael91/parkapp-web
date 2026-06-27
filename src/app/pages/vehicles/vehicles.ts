@@ -21,6 +21,10 @@ export class Vehicles implements OnInit {
   formError = signal('');
   formSuccess = signal('');
 
+  editingId = signal<number | null>(null);
+  editPlate = signal('');
+  editError = signal('');
+
   constructor(protected auth: AuthService, private api: ApiService) {}
 
   ngOnInit() {
@@ -63,6 +67,32 @@ export class Vehicles implements OnInit {
       error: (err) => {
         this.formError.set(err.error?.error || 'Error al registrar vehículo');
       },
+    });
+  }
+
+  startEdit(vehicle: any) {
+    this.editingId.set(vehicle.id);
+    this.editPlate.set(vehicle.plate);
+    this.editError.set('');
+  }
+
+  cancelEdit() {
+    this.editingId.set(null);
+    this.editError.set('');
+  }
+
+  saveEdit(id: number) {
+    const plate = this.editPlate().trim();
+    if (!plate) {
+      this.editError.set('La placa no puede estar vacía');
+      return;
+    }
+    this.api.updateVehiclePlate(id, plate).subscribe({
+      next: (res) => {
+        this.vehicles.update(list => list.map(v => v.id === id ? { ...v, plate: res.vehicle.plate } : v));
+        this.editingId.set(null);
+      },
+      error: (err) => this.editError.set(err.error?.error ?? 'Error al actualizar la placa'),
     });
   }
 

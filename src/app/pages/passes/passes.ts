@@ -79,6 +79,13 @@ export class Passes implements OnInit {
     });
   }
 
+  deletePass(id: number) {
+    if (!confirm('¿Eliminar esta mensualidad?')) return;
+    this.api.deletePass(id).subscribe({
+      next: () => this.passes.update(list => list.filter(p => p.id !== id)),
+    });
+  }
+
   logout() {
     this.auth.logout();
   }

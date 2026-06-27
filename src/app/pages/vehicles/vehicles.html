@@ -68,19 +68,41 @@
               <th>Placa</th>
               <th>Tipo</th>
               <th>Registrado</th>
+              @if (auth.isAdmin()) { <th></th> }
             </tr>
           </thead>
           <tbody>
             @for (v of vehicles(); track v.id) {
               <tr>
                 <td class="code">#{{ v.code }}</td>
-                <td class="plate">{{ v.plate }}</td>
+                <td class="plate">
+                  @if (editingId() === v.id) {
+                    <input class="edit-input" type="text" [(ngModel)]="editPlate" placeholder="Nueva placa" />
+                  } @else {
+                    {{ v.plate }}
+                  }
+                </td>
                 <td><span class="badge" [class]="v.type">{{ v.type }}</span></td>
                 <td>{{ v.created_at | date:'shortDate' }}</td>
+                @if (auth.isAdmin()) {
+                  <td class="actions">
+                    @if (editingId() === v.id) {
+                      <button class="btn-save-inline" (click)="saveEdit(v.id)">Guardar</button>
+                      <button class="btn-cancel-inline" (click)="cancelEdit()">Cancelar</button>
+                    } @else {
+                      <button class="btn-edit" (click)="startEdit(v)">Editar placa</button>
+                    }
+                  </td>
+                }
               </tr>
+              @if (editingId() === v.id && editError()) {
+                <tr class="error-row">
+                  <td [attr.colspan]="auth.isAdmin() ? 5 : 4" class="edit-error">{{ editError() }}</td>
+                </tr>
+              }
             } @empty {
               <tr>
-                <td colspan="4" class="empty">No hay vehículos registrados</td>
+                <td colspan="5" class="empty">No hay vehículos registrados</td>
               </tr>
             }
           </tbody>

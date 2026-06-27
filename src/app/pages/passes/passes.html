@@ -75,6 +75,7 @@
               <th>Hasta</th>
               <th>Monto</th>
               <th>Estado</th>
+              @if (auth.isAdmin()) { <th></th> }
             </tr>
           </thead>
           <tbody>
@@ -90,10 +91,15 @@
                     {{ isActive(p) ? 'Activa' : 'Vencida' }}
                   </span>
                 </td>
+                @if (auth.isAdmin()) {
+                  <td>
+                    <button class="btn-delete" (click)="deletePass(p.id)">Eliminar</button>
+                  </td>
+                }
               </tr>
             } @empty {
               <tr>
-                <td colspan="6" class="empty">No hay mensualidades registradas</td>
+                <td colspan="7" class="empty">No hay mensualidades registradas</td>
               </tr>
             }
           </tbody>

@@ -65,6 +65,14 @@ export class ApiService {
     return this.http.post<{ pass: any }>(`${this.api}/passes`, { vehicle_id, start_date, end_date, amount });
   }
 
+  deletePass(id: number) {
+    return this.http.delete<{ message: string }>(`${this.api}/passes/${id}`);
+  }
+
+  updateVehiclePlate(id: number, plate: string) {
+    return this.http.patch<{ vehicle: any }>(`${this.api}/vehicles/${id}`, { plate });
+  }
+
   // Settings
   getSettings() {
     return this.http.get<{ settings: any }>(`${this.api}/settings`);

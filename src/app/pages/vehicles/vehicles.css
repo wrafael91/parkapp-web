@@ -248,3 +248,60 @@ tr:hover td {
   color: #999;
   padding: 2rem 1rem;
 }
+
+.actions {
+  white-space: nowrap;
+}
+
+.edit-input {
+  width: 110px;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #4361ee;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.btn-edit {
+  padding: 0.25rem 0.6rem;
+  background: white;
+  color: #4361ee;
+  border: 1px solid #c5cef9;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit:hover {
+  background: #eef0fd;
+}
+
+.btn-save-inline {
+  padding: 0.25rem 0.6rem;
+  background: #4361ee;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-right: 0.35rem;
+}
+
+.btn-cancel-inline {
+  padding: 0.25rem 0.6rem;
+  background: white;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.edit-error {
+  color: #c62828;
+  font-size: 0.8rem;
+  padding: 0.35rem 1rem 0.5rem;
+  background: #fff5f5;
+}
