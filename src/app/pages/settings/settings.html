@@ -1,0 +1,99 @@
+<div class="settings-page">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/parking">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces">Espacios</a>
+      <a routerLink="/history">Historial</a>
+      <a routerLink="/reports">Reportes</a>
+      <a routerLink="/passes">Mensualidades</a>
+      <a routerLink="/settings" class="active">Configuración</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>Configuración</h2>
+    </div>
+
+    @if (!auth.isAdmin()) {
+      <div class="no-access">Solo los administradores pueden ver esta página.</div>
+    } @else {
+
+      <div class="section-card">
+        <h3>Espacios del parqueadero</h3>
+        <p class="section-desc">Total actual: <strong>{{ totalSpaces() }}</strong> espacios</p>
+        <div class="inline-form">
+          <input
+            type="number"
+            [(ngModel)]="newTotalSpaces"
+            min="1"
+            placeholder="Nuevo total"
+          />
+          <button class="btn-save" (click)="saveSpaces()" [disabled]="savingSpaces()">
+            {{ savingSpaces() ? 'Guardando...' : 'Guardar' }}
+          </button>
+        </div>
+        @if (spacesError()) { <p class="error">{{ spacesError() }}</p> }
+        @if (spacesSuccess()) { <p class="success">{{ spacesSuccess() }}</p> }
+      </div>
+
+      <div class="section-card">
+        <h3>Tarifas</h3>
+        <p class="section-desc">Precio por bloque de tiempo según tipo de vehículo</p>
+
+        @if (loading()) {
+          <p class="loading-text">Cargando...</p>
+        } @else {
+          @if (tariffError()) { <p class="error">{{ tariffError() }}</p> }
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Tarifa por bloque ($)</th>
+                <th>Minutos por bloque</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (t of tariffs(); track t.id) {
+                <tr>
+                  <td><span class="badge" [class]="t.vehicle_type">{{ t.vehicle_type }}</span></td>
+                  <td>
+                    @if (editingTariffId() === t.id) {
+                      <input class="edit-input" type="number" [(ngModel)]="editRate" min="1" />
+                    } @else {
+                      ${{ t.rate_per_block }}
+                    }
+                  </td>
+                  <td>
+                    @if (editingTariffId() === t.id) {
+                      <input class="edit-input" type="number" [(ngModel)]="editMinutes" min="1" />
+                    } @else {
+                      {{ t.block_minutes }} min
+                    }
+                  </td>
+                  <td class="actions">
+                    @if (editingTariffId() === t.id) {
+                      <button class="btn-save-inline" (click)="saveTariff(t.id)" [disabled]="savingTariff()">Guardar</button>
+                      <button class="btn-cancel-inline" (click)="cancelEditTariff()">Cancelar</button>
+                    } @else {
+                      <button class="btn-edit" (click)="startEditTariff(t)">Editar</button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+
+    }
+  </main>
+</div>

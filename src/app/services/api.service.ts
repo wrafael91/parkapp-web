@@ -73,6 +73,14 @@ export class ApiService {
     return this.http.patch<{ vehicle: any }>(`${this.api}/vehicles/${id}`, { plate });
   }
 
+  updateSettings(total_spaces: number) {
+    return this.http.patch<{ settings: any }>(`${this.api}/settings`, { total_spaces });
+  }
+
+  updateTariff(id: number, rate_per_block: number, block_minutes: number) {
+    return this.http.patch<{ tariff: any }>(`${this.api}/tariffs/${id}`, { rate_per_block, block_minutes });
+  }
+
   // Settings
   getSettings() {
     return this.http.get<{ settings: any }>(`${this.api}/settings`);
