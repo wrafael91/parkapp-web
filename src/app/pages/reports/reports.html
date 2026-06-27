@@ -1,0 +1,95 @@
+<div class="reports-page">
+  <header>
+    <h1>ParkApp</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/parking">Parking</a>
+      <a routerLink="/vehicles">Vehículos</a>
+      <a routerLink="/spaces">Espacios</a>
+      <a routerLink="/history">Historial</a>
+      <a routerLink="/reports" class="active">Reportes</a>
+    </nav>
+    <div class="user-info">
+      <span>{{ auth.user()?.username }}</span>
+      <button (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>Reporte de turno</h2>
+    </div>
+
+    <div class="filters-card">
+      <div class="filters-row">
+        <div class="field">
+          <label>Desde</label>
+          <input type="date" [value]="from()" (change)="from.set($any($event.target).value)" />
+        </div>
+        <div class="field">
+          <label>Hasta (opcional)</label>
+          <input type="date" [value]="to()" (change)="to.set($any($event.target).value)" />
+        </div>
+        <div class="filter-actions">
+          <button class="btn-search" (click)="load()">Generar</button>
+        </div>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <p class="loading-text">Cargando...</p>
+    } @else if (report()) {
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Entradas</span>
+          <span class="stat-value">{{ report().total_entries }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Salidas</span>
+          <span class="stat-value">{{ report().total_exits }}</span>
+        </div>
+        <div class="stat-card green">
+          <span class="stat-label">Recaudo</span>
+          <span class="stat-value">${{ report().total_revenue | number:'1.0-0' }}</span>
+        </div>
+        <div class="stat-card blue">
+          <span class="stat-label">Ocupación actual</span>
+          <span class="stat-value">{{ report().occupancy.occupied }}/{{ report().occupancy.total }}</span>
+          <span class="stat-sub">{{ report().occupancy.percentage }}%</span>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h3>Desglose por tipo</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Entradas</th>
+              <th>Salidas</th>
+              <th>Recaudo</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of byTypeEntries(); track row[0]) {
+              <tr>
+                <td><span class="badge" [class]="row[0]">{{ row[0] }}</span></td>
+                <td>{{ row[1].entries }}</td>
+                <td>{{ row[1].exits }}</td>
+                <td>${{ row[1].revenue | number:'1.0-0' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="empty">Sin movimientos en el período</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="period-note">
+        Período: {{ report().period.from | date:'short' }} — {{ report().period.to | date:'short' }}
+      </p>
+    }
+  </main>
+</div>
