@@ -85,4 +85,17 @@ export class ApiService {
   getSettings() {
     return this.http.get<{ settings: any }>(`${this.api}/settings`);
   }
+
+  // Users
+  getUsers() {
+    return this.http.get<{ users: any[] }>(`${this.api}/users`);
+  }
+
+  createUser(username: string, password: string, role: string) {
+    return this.http.post<{ user: any }>(`${this.api}/auth/register`, { username, password, role });
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete<{ message: string }>(`${this.api}/users/${id}`);
+  }
 }

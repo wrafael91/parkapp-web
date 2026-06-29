@@ -11,6 +11,7 @@ export const routes: Routes = [
   { path: 'reports', loadComponent: () => import('./pages/reports/reports').then(m => m.Reports), canActivate: [authGuard] },
   { path: 'passes', loadComponent: () => import('./pages/passes/passes').then(m => m.Passes), canActivate: [authGuard] },
   { path: 'settings', loadComponent: () => import('./pages/settings/settings').then(m => m.Settings), canActivate: [authGuard] },
+  { path: 'users', loadComponent: () => import('./pages/users/users').then(m => m.Users), canActivate: [authGuard] },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' },
 ];

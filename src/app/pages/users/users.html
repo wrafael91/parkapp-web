@@ -1,0 +1,81 @@
+<div class="users-page">
+  <app-navbar />
+
+  <main>
+    <div class="page-header">
+      <h2>Usuarios</h2>
+      @if (auth.isAdmin()) {
+        <button class="btn-new" (click)="openForm()">+ Nuevo usuario</button>
+      }
+    </div>
+
+    @if (!auth.isAdmin()) {
+      <div class="no-access">Solo los administradores pueden ver esta página.</div>
+    } @else {
+
+      @if (showForm()) {
+        <div class="form-card">
+          <h3>Nuevo usuario</h3>
+          <div class="form-grid">
+            <div class="field">
+              <label>Username</label>
+              <input type="text" [(ngModel)]="username" placeholder="nombre de usuario" />
+            </div>
+            <div class="field">
+              <label>Contraseña</label>
+              <input type="password" [(ngModel)]="password" placeholder="contraseña" />
+            </div>
+            <div class="field">
+              <label>Rol</label>
+              <select [(ngModel)]="role">
+                <option value="operador">Operador</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+          @if (formError()) { <p class="error">{{ formError() }}</p> }
+          <div class="form-actions">
+            <button class="btn-save" (click)="saveUser()" [disabled]="saving()">
+              {{ saving() ? 'Guardando...' : 'Crear usuario' }}
+            </button>
+            <button class="btn-cancel" (click)="cancelForm()">Cancelar</button>
+          </div>
+        </div>
+      }
+
+      @if (loading()) {
+        <p class="loading-text">Cargando...</p>
+      } @else {
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Rol</th>
+                <th>Creado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (u of users(); track u.id) {
+                <tr>
+                  <td class="id">{{ u.id }}</td>
+                  <td class="username">{{ u.username }}</td>
+                  <td><span class="badge" [class]="u.role">{{ u.role }}</span></td>
+                  <td>{{ formatDate(u.created_at) }}</td>
+                  <td>
+                    @if (u.id !== auth.user()?.id) {
+                      <button class="btn-delete" (click)="deleteUser(u.id, u.username)">Eliminar</button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    }
+  </main>
+</div>

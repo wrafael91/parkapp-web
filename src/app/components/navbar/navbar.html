@@ -10,6 +10,9 @@
     <a routerLink="/reports" routerLinkActive="active" (click)="close()">Reportes</a>
     <a routerLink="/passes" routerLinkActive="active" (click)="close()">Mensualidades</a>
     <a routerLink="/settings" routerLinkActive="active" (click)="close()">Configuración</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/users" routerLinkActive="active" (click)="close()">Usuarios</a>
+    }
   </nav>
 
   <div class="user-info">
