@@ -1,59 +1,110 @@
-# ParkappWeb
+# ParkApp Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+Frontend de un sistema de gestión de parqueadero. Proyecto de portafolio fullstack orientado a vacantes junior en Colombia y remoto USD.
 
-## Development server
+**Live:** `https://parkapp-web.vercel.app` · **API:** `https://parkapp-api.onrender.com`
 
-To start a local development server, run:
+---
+
+## Stack
+
+| Capa | Tecnología |
+|------|-----------|
+| Framework | Angular 21 (standalone components) |
+| Lenguaje | TypeScript |
+| Estado | Signals (`signal`, `computed`) |
+| HTTP | `HttpClient` + interceptor JWT |
+| Routing | Lazy loading con `loadComponent` |
+| Deploy | Vercel |
+
+---
+
+## Páginas
+
+| Ruta | Descripción |
+|------|-------------|
+| `/dashboard` | Resumen: espacios libres/ocupados, ingresos del día, últimas entradas |
+| `/parking` | Registrar entrada y salida de vehículos |
+| `/vehicles` | Listado de vehículos; edición de placa (admin) |
+| `/spaces` | Grilla visual de espacios en tiempo real |
+| `/history` | Historial de parqueo con filtros por fecha, tipo y placa |
+| `/reports` | Reporte de turno: entradas, salidas, recaudo, desglose por tipo |
+| `/passes` | Mensualidades: crear y eliminar (admin) |
+| `/settings` | Total de espacios y tarifas por tipo (admin) |
+
+---
+
+## Correr localmente
+
+### Requisitos
+- Node.js 20+
+- Angular CLI 21: `npm install -g @angular/cli`
+
+### Pasos
 
 ```bash
+# 1. Clonar
+git clone https://github.com/wrafael91/parkapp-web.git
+cd parkapp-web
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Desarrollo (apunta al backend local por defecto)
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La API URL de producción está en `src/environments/environment.prod.ts`. Para desarrollo local, editar `src/environments/environment.ts` con `http://localhost:3000`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Build de producción
 
 ```bash
-ng generate component component-name
+ng build --configuration production
+# Output: dist/parkapp-web/browser/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+## Decisiones técnicas
+
+**Standalone components (Angular 21):** sin NgModules. Cada componente declara sus propias dependencias en `imports: []`, lo que hace la estructura más legible y el tree-shaking más efectivo.
+
+**Signals sobre RxJS para estado local:** `signal()` y `computed()` son más simples de razonar que Observables para estado de UI sincrónico. RxJS queda para operaciones HTTP via `HttpClient`.
+
+**Lazy loading en todas las rutas:** cada página se carga solo cuando el usuario navega a ella, reduciendo el bundle inicial.
+
+**Interceptor JWT centralizado:** en lugar de agregar el header `Authorization` en cada llamada, un interceptor lo inyecta automáticamente en todos los requests autenticados.
+
+**Guard funcional:** `canActivate: [authGuard]` protege rutas sin necesidad de una clase. Si el token no existe o expiró, redirige a `/login`.
+
+**NavbarComponent compartido:** la barra de navegación es un componente standalone reutilizado en todas las páginas. Incluye menú hamburguesa responsivo para móvil (< 800px).
+
+**`isActive()` computado en frontend:** el campo `active` de mensualidades en la DB es estático; el frontend calcula si una mensualidad está vigente comparando `end_date >= new Date()`.
+
+---
+
+## Estructura del proyecto
+
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
+src/app/
+├── components/
+│   └── navbar/           # Navbar compartida con hamburger menu
+├── pages/
+│   ├── login/
+│   ├── dashboard/
+│   ├── parking/
+│   ├── vehicles/
+│   ├── spaces/
+│   ├── history/
+│   ├── reports/
+│   ├── passes/
+│   └── settings/
+├── services/
+│   ├── api.service.ts    # Todos los llamados HTTP al backend
+│   └── auth.service.ts   # JWT: guardar, leer, limpiar token
+├── guards/
+│   └── auth.guard.ts     # Protege rutas privadas
+├── interceptors/
+│   └── auth.interceptor.ts  # Inyecta Bearer token en cada request
+└── app.routes.ts
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
