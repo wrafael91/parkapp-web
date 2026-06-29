@@ -8,6 +8,15 @@ Frontend de un sistema de gestión de parqueadero. Proyecto de portafolio fullst
 
 ---
 
+## Screenshots
+
+![Dashboard](docs/screenshots/dashboard.png)
+![Espacios](docs/screenshots/spaces.png)
+![Parking](docs/screenshots/parking.png)
+![Reportes](docs/screenshots/reports.png)
+
+---
+
 ## Stack
 
 | Capa | Tecnología |
